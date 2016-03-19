@@ -6,8 +6,6 @@
     <title>OnlyKey Subscription Wizard</title>
 
     <link rel="stylesheet" href="style.css">
-    <script src="control-panel.js"></script>
-
        
 </head>
 
@@ -17,23 +15,23 @@
 
         <tr>
 
-            <td id="HeaderTableStep1" style="background-color:Yellow">
+            <td data-step="Step1">
 
                 Step 1: Getting Started</td>
 
-            <td id="HeaderTableStep2" style="background-color:Silver">
+            <td data-step="Step2">
 
                 Step 2: Insert OpenKey and Select Mode</td>
 
-            <td id="HeaderTableStep3" style="background-color:Silver">
+            <td data-step="Step3">
 
                 Step 3:&nbsp; Set Your Passcode</td>
 
-            <td id="HeaderTableStep4" style="background-color:Silver">
+            <td data-step="Step4">
 
                 Step 4: Select subscriptions</td>
 
-            <td id="HeaderTableStep5" style="background-color:Silver">
+            <td data-step="Step5">
 
                 Step:5 Finalize &amp; Submit</td>
 
@@ -42,257 +40,257 @@
     </table>
 
     <br />
+<div id="stepContent">
+    <span id="Step1"><strong>
 
-<span id="Step1"><strong>
+        Welcome to the OnlyKey Subscription Wizard!<br />
 
-    Welcome to the OnlyKey Subscription Wizard!<br />
+        </strong>
 
-    </strong>
+            <br />
+
+        This wizard initializes the OnlyKey. Each step is highlighted in the header. 
 
         <br />
 
-    This wizard initializes the OnlyKey. Each step is highlighted in the header. 
+        This step is intended to provide the user with everything they need to know to get started.
 
-    <br />
+        <br />
 
-    This step is intended to provide the user with everything they need to know to get started.
+    </span>
 
-    <br />
+    <span id="Step2">
 
-</span>
+       <!----------------------------- Step 1:-------------------------------------------- -->
+          <h3><label>Step 2: Insert OpenKey and Select Mode</label></h3><br>
+    	<!-- Mode radio buttons -->
+    	<B>Modes: </B><br>
+    	<input type=radio name=ConfigMode value="Unencrypted">
+    	Unencrypted Password Manager
+    	<br>
 
-<span id="Step2" style="display:none">
+    	<input type=radio checked=true name=ConfigMode value="TwoFactor">
+    	Two Factor Authentication and Password Manager (default)
+    	<br>
 
-   <!----------------------------- Step 1:-------------------------------------------- -->
-      <h3><label>Step 2: Insert OpenKey and Select Mode</label></h3><br>
-	<!-- Mode radio buttons -->
-	<B>Modes: </B><br>
-	<input type=radio name=ConfigMode value="Unencrypted">
-	Unencrypted Password Manager
-	<br>
+    	<input type=radio name=ConfigMode value="DualProfile">
+    	Dual Profile - Two Factor Authentication and Password Manage
+    	   Plausible Deniability Unencrypted Password Manager
+    	<br><br>
+    	</span>
 
-	<input type=radio checked=true name=ConfigMode value="TwoFactor">
-	Two Factor Authentication and Password Manager (default)
-	<br>
+    	<span id="Step3">
 
-	<input type=radio name=ConfigMode value="DualProfile">
-	Dual Profile - Two Factor Authentication and Password Manage
-	   Plausible Deniability Unencrypted Password Manager
-	<br><br>
-	</span>
+    	    <table border="0" cellpadding="5" cellspacing="0">
 
-	<span id="Step3" style="display:none">
+    		<tr>
 
-	    <table border="0" cellpadding="5" cellspacing="0">
+    		    <td align="right">
 
-		<tr>
+    		        Email:</td>
 
-		    <td align="right">
+    		    <td>
 
-		        Email:</td>
+    		        <input id="TextEmail" name="Email" type="text" /></td>
 
-		    <td>
+    		</tr>
 
-		        <input id="TextEmail" name="Email" type="text" /></td>
+    		<tr>
 
-		</tr>
+    		    <td align="right">
 
-		<tr>
+    		        Password:</td>
 
-		    <td align="right">
+    		    <td>
 
-		        Password:</td>
+    		        <input id="TextPassword" name="Password" type="password" /></td>
 
-		    <td>
+    		</tr>
 
-		        <input id="TextPassword" name="Password" type="password" /></td>
+    	    </table>
 
-		</tr>
+    </span>
 
-	    </table>
+    <span id="Step4">
 
-</span>
+        <table border="0" cellpadding="5" cellspacing="0">
 
-<span id="Step4" style="display:none">
+            <tr>
 
-    <table border="0" cellpadding="5" cellspacing="0">
+                <td align="left" colspan="2">
 
-        <tr>
+                    <strong>
 
-            <td align="left" colspan="2">
+                    Select your subscription:</strong></td>
 
-                <strong>
+            </tr>
 
-                Select your subscription:</strong></td>
+            <tr>
 
-        </tr>
+                <td align="right">
 
-        <tr>
+                    HtmlGoodies.com:</td>
 
-            <td align="right">
+                <td>
 
-                HtmlGoodies.com:</td>
+                    <input id="CheckboxHtmlGoodies" name="CheckboxHtmlGoodies" type="checkbox" value="Yes" /></td>
 
-            <td>
+            </tr>
 
-                <input id="CheckboxHtmlGoodies" name="CheckboxHtmlGoodies" type="checkbox" value="Yes" /></td>
+            <tr>
 
-        </tr>
+                <td align="right">
 
-        <tr>
+                    JavaScript.com:</td>
 
-            <td align="right">
+                <td>
 
-                JavaScript.com:</td>
+                    <input id="CheckboxJavaScript" name="CheckboxJavaScript" type="checkbox" value="Yes" /></td>
 
-            <td>
+            </tr>
 
-                <input id="CheckboxJavaScript" name="CheckboxJavaScript" type="checkbox" value="Yes" /></td>
+            <tr>
 
-        </tr>
+                <td align="right">
 
-        <tr>
+                    wdvl.com</td>
 
-            <td align="right">
+                <td>
 
-                wdvl.com</td>
+                    <input id="CheckboxWdvl" name="CheckboxWdvl" type="checkbox" value="Yes" /></td>
 
-            <td>
+            </tr>
 
-                <input id="CheckboxWdvl" name="CheckboxWdvl" type="checkbox" value="Yes" /></td>
+        </table>
 
-        </tr>
+    </span>
 
-    </table>
+    <span id="Step5">
 
-</span>
+        <table border="0" cellpadding="5" cellspacing="0">
 
-<span id="Step5" style="display:none">
+            <tr>
 
-    <table border="0" cellpadding="5" cellspacing="0">
+                <td colspan="2">
 
-        <tr>
+                    <strong>Final Review:</strong></td>
 
-            <td colspan="2">
+            </tr>
 
-                <strong>Final Review:</strong></td>
+            <tr>
 
-        </tr>
+                <td align="right">
 
-        <tr>
+                    First name:</td>
 
-            <td align="right">
+                <td id="ReviewFirstName">
 
-                First name:</td>
+                    </td>
 
-            <td id="ReviewFirstName">
+            </tr>
+
+            <tr>
+
+                <td align="right">
+
+                    Middle name:</td>
+
+                <td id="ReviewMiddleName">
+
+                    </td>
+
+            </tr>
+
+            <tr>
+
+                <td align="right">
+
+                    Last name:</td>
+
+                <td id="ReviewLastName">
+
+                    </td>
+
+            </tr>
+
+            <tr>
+
+                <td align="right">
+
+                    Email:</td>
+
+                <td id="ReviewEmail">
 
                 </td>
 
-        </tr>
+            </tr>
 
-        <tr>
+            <tr>
 
-            <td align="right">
+                <td align="right">
 
-                Middle name:</td>
+                    Password:</td>
 
-            <td id="ReviewMiddleName">
-
-                </td>
-
-        </tr>
-
-        <tr>
-
-            <td align="right">
-
-                Last name:</td>
-
-            <td id="ReviewLastName">
+                <td id="ReviewPassword">
 
                 </td>
 
-        </tr>
+            </tr>
 
-        <tr>
+            <tr>
 
-            <td align="right">
+                <td align="left">
 
-                Email:</td>
+                    <strong>
 
-            <td id="ReviewEmail">
+                    Subscribed to:</strong></td>
 
-            </td>
+                <td>
 
-        </tr>
+                </td>
 
-        <tr>
+            </tr>
 
-            <td align="right">
+            <tr>
 
-                Password:</td>
+                <td align="right">
 
-            <td id="ReviewPassword">
+                    HtmlGoodies.com:</td>
 
-            </td>
+                <td id="ReviewHtmlGoodies">
 
-        </tr>
+                </td>
 
-        <tr>
+            </tr>
 
-            <td align="left">
+            <tr>
 
-                <strong>
+                <td align="right">
 
-                Subscribed to:</strong></td>
+                    JavaScript.com:</td>
 
-            <td>
+                <td id="ReviewJavaScript">
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
-        <tr>
+            <tr>
 
-            <td align="right">
+                <td align="right">
 
-                HtmlGoodies.com:</td>
+                    wdvl.com:</td>
 
-            <td id="ReviewHtmlGoodies">
+                <td id="ReviewWdvl">
 
-            </td>
+                </td>
 
-        </tr>
+            </tr>
 
-        <tr>
+        </table>
 
-            <td align="right">
-
-                JavaScript.com:</td>
-
-            <td id="ReviewJavaScript">
-
-            </td>
-
-        </tr>
-
-        <tr>
-
-            <td align="right">
-
-                wdvl.com:</td>
-
-            <td id="ReviewWdvl">
-
-            </td>
-
-        </tr>
-
-    </table>
-
-</span>
-
+    </span>
+</div>
 <br />    
 
 <table border="0" cellpadding="5" cellspacing="0">
@@ -300,21 +298,20 @@
     <tr>
 
         <td>
-
-            <input id="ButtonPrevious" type="button" value="Previous" disabled="disabled" name="" onclick="handleWizardPrevious()" /></td>
-
+            <button id="ButtonPrevious" type="button" disabled="disabled">Previous</button>
+        </td>
         <td>
-
-            <!--<input id="ButtonNext" type="button" value="Next" name="Step2" onclick="handleWizardNext()" /></td>-->
-		<button id="buttonNext" name="Step2">Test</button>
-
+    		<button id="ButtonNext" type="button">Next</button>
+        </td>
         <td>
-
-            <input id="SubmitFinal" type="submit" value="Finish" disabled="disabled" /></td>
+            <button id="SubmitFinal" type="submit" value="Finish" disabled="disabled">Finish</button>
+        </td>
 
     </tr>
 
 </table>
+
+<script src="OnlyKeySubcriptionWizard.js"></script>
 
 </body>
 

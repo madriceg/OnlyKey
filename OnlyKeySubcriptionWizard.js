@@ -1,322 +1,129 @@
- // This function handles style and display changes for each next button click
+var steps = {
+    Step1: {
+        next: 'Step2'
+    },
+    Step2: {
+        prev: 'Step1',
+        next: 'Step3'
+    },
+    Step3: {
+        prev: 'Step2',
+        next: 'Step4'
+    },
+    Step4: {
+        prev: 'Step3',
+        next: 'Step5'
+    },
+    Step5: {
+        prev: 'Step4',
+        fn  : 'loadReview'
+    }
+};
 
-        function handleWizardNext()
+function Wizard() {
+    this.currentStep = Object.keys(steps)[0];
+}
 
-        {
+Wizard.prototype.init = function () {
+    var _this = this;
+    _this.btnNext = document.getElementById('ButtonNext');
+    _this.btnPrev = document.getElementById('ButtonPrevious');
+    _this.btnFinal = document.getElementById('SubmitFinal');
 
-            if (document.getElementById('ButtonNext').name == 'Step2')
+    _this.btnNext.onclick = function () {
+        moveStep.call(_this, 'next');
+    }
 
-            {
+    _this.btnPrev.onclick = function () {
+        moveStep.call(_this, 'prev');
+    }
 
-                // Change the button name - we use this to keep track of which step to display on a click
+    setActiveStepUI.call(_this);
+};
 
-                document.getElementById('ButtonNext').name = 'Step3';
+function moveStep(direction) {
+    // if a next/prev step exists, make it the current step
+    if (steps[this.currentStep][direction]) {
+        this.currentStep = steps[this.currentStep][direction];
+    }
 
-                document.getElementById('ButtonPrevious').name = 'Step1';
+    setActiveStepUI.call(this);
 
-                // Disable/enable buttons when reach reach start and review steps
+    // call step-related function
+    if (steps[this.currentStep].fn && typeof window[steps[this.currentStep].fn] === 'function') {
+        window[steps[this.currentStep].fn].call(this);
+    }
+}
 
-                document.getElementById('ButtonPrevious').disabled = '';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step1').style.display = 'none';
-
-                document.getElementById('Step2').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep2').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep1').style.backgroundColor = 'Silver';
-
+function setActiveStepUI() {
+    // set display style for all steps
+    for(var stepId in steps) {
+        var el = document.getElementById(stepId);
+        if (el) {
+            // el.style.display = (stepId === this.currentStep ? '' : 'none');
+            if (stepId === this.currentStep) {
+                el.classList.add('active');
+            } else {
+                el.classList.remove('active');
             }
-
-            else if (document.getElementById('ButtonNext').name == 'Step3')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = 'Step4';
-
-                document.getElementById('ButtonPrevious').name = 'Step2';
-
-                document.getElementById('Step2').style.display = 'none';
-
-                document.getElementById('Step3').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep3').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep2').style.backgroundColor = 'Silver';
-
-            }
-
-            else if (document.getElementById('ButtonNext').name == 'Step4')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = 'Step5';
-
-                document.getElementById('ButtonPrevious').name = 'Step3';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step3').style.display = 'none';
-
-                document.getElementById('Step4').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep4').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep3').style.backgroundColor = 'Silver';
-
-            }
-
-            else if (document.getElementById('ButtonNext').name == 'Step5')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = '';
-
-                document.getElementById('ButtonPrevious').name = 'Step4';
-
-                // Disable/enable buttons when reach reach start and review steps
-
-                document.getElementById('ButtonNext').disabled = 'disabled';
-
-                document.getElementById('SubmitFinal').disabled = '';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step4').style.display = 'none';
-
-                document.getElementById('Step5').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep5').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep4').style.backgroundColor = 'Silver';
-
-                // Load table elements for final review step
-
-                loadStep5Review();
-
-            }
-
         }
+    }
 
-        
+    var header = document.getElementById('HeaderTable');
+    var tabs = header.getElementsByTagName("td");
 
-        // This function handles style and display changes for each previous button click
-
-        function handleWizardPrevious()
-
-        {
-
-            if (document.getElementById('ButtonPrevious').name == 'Step1')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = 'Step2';
-
-                document.getElementById('ButtonPrevious').name = '';
-
-                // Disable/enable buttons when reach reach start and review steps
-
-                document.getElementById('ButtonPrevious').disabled = 'disabled';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step2').style.display = 'none';
-
-                document.getElementById('Step1').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep1').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep2').style.backgroundColor = 'Silver';
-
-            }
-
-            else if (document.getElementById('ButtonPrevious').name == 'Step2')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = 'Step3';
-
-                document.getElementById('ButtonPrevious').name = 'Step1';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step3').style.display = 'none';
-
-                document.getElementById('Step2').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep2').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep3').style.backgroundColor = 'Silver';
-
-            }
-
-            else if (document.getElementById('ButtonPrevious').name == 'Step3')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = 'Step4';
-
-                document.getElementById('ButtonPrevious').name = 'Step2';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step4').style.display = 'none';
-
-                document.getElementById('Step3').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep3').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep4').style.backgroundColor = 'Silver';
-
-            }
-
-            else if (document.getElementById('ButtonPrevious').name == 'Step4')
-
-            {
-
-                // Change the button name - we use this to keep track of which step to display on a click
-
-                document.getElementById('ButtonNext').name = 'Step5';
-
-                document.getElementById('ButtonPrevious').name = 'Step3';
-
-                // Disable/enable buttons when reach reach start and review steps
-
-                document.getElementById('ButtonNext').disabled = '';
-
-                document.getElementById('SubmitFinal').disabled = 'disabled';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step5').style.display = 'none';
-
-                document.getElementById('Step4').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep4').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep5').style.backgroundColor = 'Silver';
-
-            }
-
+    for (var i = 0; i < tabs.length; i++) {
+        if(tabs[i].getAttribute("data-step") === this.currentStep) {
+            // tabs[i].style.backgroundColor = 'Yellow';
+            tabs[i].classList.add('active');
+        } else {
+            // tabs[i].style.backgroundColor = 'Silver';
+            tabs[i].classList.remove('active');
         }
+    }
 
-        
+    if (steps[this.currentStep].next) {
+        this.btnNext.removeAttribute('disabled');
+        this.btnFinal.setAttribute('disabled', 'disabled');
+    } else {
+        this.btnNext.setAttribute('disabled', 'disabled');
+        this.btnFinal.removeAttribute('disabled');
+    }
 
-        // This function handles loading the review table innerHTML for the user to review before final submission
+    if (steps[this.currentStep].prev) {
+        this.btnPrev.removeAttribute('disabled');
+    } else {
+        this.btnPrev.setAttribute('disabled', 'disabled');
+    }
+}
 
-        function loadStep5Review()
+// This function handles loading the review table innerHTML for the user to review before final submission
+function loadReview() {
+    // Assign values to appropriate cells in review table
+    // document.getElementById('ReviewFirstName').innerHTML = document.getElementById('TextFirstName').value;
+    // document.getElementById('ReviewMiddleName').innerHTML = document.getElementById('TextMiddleName').value;
+    // document.getElementById('ReviewLastName').innerHTML = document.getElementById('TextLastName').value;
+    document.getElementById('ReviewEmail').innerHTML = document.getElementById('TextEmail').value;
 
-        {
+    // Indicate Yes or No based on checkboxes
+    document.getElementById('ReviewHtmlGoodies').innerHTML = document.getElementById('CheckboxHtmlGoodies').checked ? 'Yes' : 'No';
+    document.getElementById('ReviewJavaScript').innerHTML = document.getElementById('CheckboxJavaScript').checked ? 'Yes' : 'No';
+    document.getElementById('ReviewWdvl').innerHTML = document.getElementById('CheckboxWdvl').checked ? 'Yes' : 'No';
 
-            // Assign values to appropriate cells in review table
+    // Special case to display password as asterisks
+    var iCounter = 1;
+    var iCharacterCount = document.getElementById('TextPassword').value.length;
+    var passwordMasked = '';
 
-            document.getElementById('ReviewFirstName').innerHTML = document.getElementById('TextFirstName').value;
+    for (iCounter = 1; iCounter <= iCharacterCount; iCounter++) {
+        passwordMasked = passwordMasked + '*';
+    }
 
-            document.getElementById('ReviewMiddleName').innerHTML = document.getElementById('TextMiddleName').value;
+    document.getElementById('ReviewPassword').innerHTML = passwordMasked;
+}
 
-            document.getElementById('ReviewLastName').innerHTML = document.getElementById('TextLastName').value;
-
-            document.getElementById('ReviewEmail').innerHTML = document.getElementById('TextEmail').value;
-
-            // Indicate Yes or No based on subscription checkbox checked
-
-            if (document.getElementById('CheckboxHtmlGoodies').checked == 1)
-
-            {
-
-                document.getElementById('ReviewHtmlGoodies').innerHTML = 'Yes';
-
-            }
-
-            else
-
-            {
-
-                document.getElementById('ReviewHtmlGoodies').innerHTML = 'No';
-
-            }
-
-            if (document.getElementById('CheckboxJavaScript').checked == 1)
-
-            {
-
-                document.getElementById('ReviewJavaScript').innerHTML = 'Yes';
-
-            }
-
-            else
-
-            {
-
-                document.getElementById('ReviewJavaScript').innerHTML = 'No';
-
-            }
-
-            if (document.getElementById('CheckboxWdvl').checked == 1)
-
-            {
-
-                document.getElementById('ReviewWdvl').innerHTML = 'Yes';
-
-            }
-
-            else
-
-            {
-
-                document.getElementById('ReviewWdvl').innerHTML = 'No';
-
-            }
-
-            // Special case to display password as asterisks
-
-            var iCounter = 1;
-
-            var iCharacterCount = document.getElementById('TextPassword').value.length;
-
-            var passwordMasked = '';
-
-            for (iCounter = 1; iCounter <= iCharacterCount; iCounter++)
-
-            {
-
-                passwordMasked = passwordMasked + '*';
-
-            }
-
-            document.getElementById('ReviewPassword').innerHTML = passwordMasked;
-
-        }
-
-    </script>
-
+document.addEventListener('DOMContentLoaded', function init() {
+    console.info("Creating wizard instance...");
+    var wizard = new Wizard();
+    wizard.init();
+}, false);
