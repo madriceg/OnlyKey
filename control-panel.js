@@ -13,8 +13,12 @@
     inPoll: null,
     inputLog: null,
     receive: null,
+<<<<<<< HEAD
     clear: null,
     buttonNext: null,
+=======
+    clear: null
+>>>>>>> origin/master
   };
 
   var connection = -1;
@@ -56,6 +60,8 @@
   };
 
   var onDevicesEnumerated = function(devices) {
+    console.info("HID devices:", devices);
+
     if (chrome.runtime.lastError) {
       console.error("Unable to enumerate devices: " +
                     chrome.runtime.lastError.message);
@@ -65,7 +71,7 @@
     for (var device of devices) {
       onDeviceAdded(device);
     }
-  }
+  };
 
   var onDeviceAdded = function(device) {
     var optionId = 'device-' + device.deviceId;
@@ -223,6 +229,7 @@
     ui.inputLog.textContent = "";
   };
 
+<<<<<<< HEAD
         // This function handles style and display changes for each previous button click
 	//var  handleWizardNext = function(){
 document.getElementById('buttonNext').addEventListener("click", function(){
@@ -257,4 +264,37 @@ document.getElementById('buttonNext').addEventListener("click", function(){
 
 
   window.addEventListener('load', initializeWindow);
+=======
+  function init() {
+    document.querySelector('.cp-toggle').onclick = toggleControlPanel;
+  }
+
+  function toggleControlPanel() {
+      // "this" = element clicked
+      var wiz = { text: "Show Configuration Wizard", id: "wizard-panel" };
+      var cp = { text: "Show Testing Tool", id: "control-panel" };
+
+      switch (this.innerText) {
+          case wiz.text:
+              document.getElementById(cp.id).style.display = 'none';
+              document.getElementById(wiz.id).style.display = 'block';
+              this.innerText = cp.text;
+              break;
+          case cp.text:
+              document.getElementById(wiz.id).style.display = 'none';
+              document.getElementById(cp.id).style.display = 'block';
+              this.innerText = wiz.text;
+              break;
+      }
+
+      if (connection === -1) {
+        initializeWindow();
+      }
+
+      return false;
+  }
+
+  //window.addEventListener('load', initializeWindow);
+  window.addEventListener('load', init);
+>>>>>>> origin/master
 }());
