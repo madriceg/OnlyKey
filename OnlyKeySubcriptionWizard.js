@@ -25,21 +25,50 @@ function Wizard() {
 }
 
 Wizard.prototype.init = function () {
-    var _this = this;
-    _this.btnNext = document.getElementById('ButtonNext');
-    _this.btnPrev = document.getElementById('ButtonPrevious');
-    _this.btnFinal = document.getElementById('SubmitFinal');
+    var currentEpochTime = new Date().getTime();
+    console.info("current epoch time =", currentEpochTime);
 
-    _this.btnNext.onclick = function () {
-        moveStep.call(_this, 'next');
-    }
-
-    _this.btnPrev.onclick = function () {
-        moveStep.call(_this, 'prev');
-    }
-
-    setActiveStepUI.call(_this);
+    this.uiInit();
+    this.usbInit();
 };
+
+Wizard.prototype.uiInit = function () {
+    this.btnNext = document.getElementById('ButtonNext');
+    this.btnPrev = document.getElementById('ButtonPrevious');
+    this.btnFinal = document.getElementById('SubmitFinal');
+    this.cpToggle = document.querySelector('.cp-toggle');
+
+    this.btnNext.onclick = moveStep.bind(this, 'next');
+    this.btnPrev.onclick = moveStep.bind(this, 'prev');
+    this.cpToggle.onclick = toggleControlPanelUI;
+
+    setActiveStepUI.call(this);
+};
+
+Wizard.prototype.usbInit = function () {
+
+};
+
+function toggleControlPanelUI() {
+    // "this" = element clicked
+    var wiz = { text: "Show Configuration Wizard", id: "wizard-panel" };
+    var cp = { text: "Show Testing Tool", id: "control-panel" };
+
+    switch (this.innerText) {
+        case wiz.text:
+            document.getElementById(cp.id).style.display = 'none';
+            document.getElementById(wiz.id).style.display = 'block';
+            this.innerText = cp.text;
+            break;
+        case cp.text:
+            document.getElementById(wiz.id).style.display = 'none';
+            document.getElementById(cp.id).style.display = 'block';
+            this.innerText = wiz.text;
+            break;
+    }
+
+    return false;
+}
 
 function moveStep(direction) {
     // if a next/prev step exists, make it the current step
@@ -53,6 +82,7 @@ function moveStep(direction) {
     if (steps[this.currentStep].fn && typeof window[steps[this.currentStep].fn] === 'function') {
         window[steps[this.currentStep].fn].call(this);
     }
+    return false;
 }
 
 function setActiveStepUI() {
@@ -74,11 +104,9 @@ function setActiveStepUI() {
 
     for (var i = 0; i < tabs.length; i++) {
         if(tabs[i].getAttribute("data-step") === this.currentStep) {
-            // tabs[i].style.backgroundColor = 'Yellow';
             tabs[i].classList.add('active');
         } else {
-            // tabs[i].style.backgroundColor = 'Silver';
-            tabs[i].classList.remove('active');
+                tabs[i].classList.remove('active');
         }
     }
 
@@ -95,6 +123,7 @@ function setActiveStepUI() {
     } else {
         this.btnPrev.setAttribute('disabled', 'disabled');
     }
+    return false;
 }
 
 // This function handles loading the review table innerHTML for the user to review before final submission
@@ -120,6 +149,7 @@ function loadReview() {
     }
 
     document.getElementById('ReviewPassword').innerHTML = passwordMasked;
+    return false;
 }
 
 document.addEventListener('DOMContentLoaded', function init() {

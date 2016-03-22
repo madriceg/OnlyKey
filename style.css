@@ -15,11 +15,11 @@ div {
   flex: 1 0;
 }
 
-#stepContent > span {
+.step {
 	display: none;
 }
 
-#stepContent > span.active {
+.step.active {
 	display: block;
 }
 

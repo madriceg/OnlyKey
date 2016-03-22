@@ -13,8 +13,7 @@
     inPoll: null,
     inputLog: null,
     receive: null,
-    clear: null,
-    buttonNext: null,
+    clear: null
   };
 
   var connection = -1;
@@ -29,7 +28,6 @@
       ui[k] = element;
     }
     enableIOControls(false);
-    ui.buttonNext.addEventListener('click', handleWizardNext);
     ui.connect.addEventListener('click', onConnectClicked);
     ui.disconnect.addEventListener('click', onDisconnectClicked);
     ui.addDevice.addEventListener('click', onAddDeviceClicked);
@@ -56,6 +54,8 @@
   };
 
   var onDevicesEnumerated = function(devices) {
+    console.info("HID devices:", devices);
+
     if (chrome.runtime.lastError) {
       console.error("Unable to enumerate devices: " +
                     chrome.runtime.lastError.message);
@@ -65,7 +65,7 @@
     for (var device of devices) {
       onDeviceAdded(device);
     }
-  }
+  };
 
   var onDeviceAdded = function(device) {
     var optionId = 'device-' + device.deviceId;
@@ -223,38 +223,35 @@
     ui.inputLog.textContent = "";
   };
 
-        // This function handles style and display changes for each previous button click
-	//var  handleWizardNext = function(){
-document.getElementById('buttonNext').addEventListener("click", function(){
-            if (document.getElementById('buttonNext').name == 'Step2')
+  function init() {
+    document.querySelector('.cp-toggle').onclick = toggleControlPanel;
+  }
 
-            {
+  function toggleControlPanel() {
+      // "this" = element clicked
+      var wiz = { text: "Show Configuration Wizard", id: "wizard-panel" };
+      var cp = { text: "Show Testing Tool", id: "control-panel" };
 
-                // Change the button name - we use this to keep track of which step to display on a click
+      switch (this.innerText) {
+          case wiz.text:
+              document.getElementById(cp.id).style.display = 'none';
+              document.getElementById(wiz.id).style.display = 'block';
+              this.innerText = cp.text;
+              break;
+          case cp.text:
+              document.getElementById(wiz.id).style.display = 'none';
+              document.getElementById(cp.id).style.display = 'block';
+              this.innerText = wiz.text;
+              break;
+      }
 
-                document.getElementById('ButtonNext').name = 'Step3';
+      if (connection === -1) {
+        initializeWindow();
+      }
 
-                document.getElementById('ButtonPrevious').name = 'Step1';
+      return false;
+  }
 
-                // Disable/enable buttons when reach reach start and review steps
-
-                document.getElementById('ButtonPrevious').disabled = '';
-
-                // Set new step to display and turn off display of current step
-
-                document.getElementById('Step1').style.display = 'none';
-
-                document.getElementById('Step2').style.display = '';
-
-                // Change background color on header to highlight new step
-
-                document.getElementById('HeaderTableStep2').style.backgroundColor = 'Yellow';
-
-                document.getElementById('HeaderTableStep1').style.backgroundColor = 'Silver';
-
-            }
-	});
-
-
-  window.addEventListener('load', initializeWindow);
+  //window.addEventListener('load', initializeWindow);
+  window.addEventListener('load', init);
 }());
