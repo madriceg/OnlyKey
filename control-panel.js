@@ -14,6 +14,7 @@
     inputLog: null,
     receive: null,
     clear: null,
+    buttonNext: null,
   };
 
   var connection = -1;
@@ -28,6 +29,7 @@
       ui[k] = element;
     }
     enableIOControls(false);
+    ui.buttonNext.addEventListener('click', handleWizardNext);
     ui.connect.addEventListener('click', onConnectClicked);
     ui.disconnect.addEventListener('click', onDisconnectClicked);
     ui.addDevice.addEventListener('click', onAddDeviceClicked);
@@ -220,6 +222,39 @@
   var onClearClicked = function() {
     ui.inputLog.textContent = "";
   };
+
+        // This function handles style and display changes for each previous button click
+	//var  handleWizardNext = function(){
+document.getElementById('buttonNext').addEventListener("click", function(){
+            if (document.getElementById('buttonNext').name == 'Step2')
+
+            {
+
+                // Change the button name - we use this to keep track of which step to display on a click
+
+                document.getElementById('ButtonNext').name = 'Step3';
+
+                document.getElementById('ButtonPrevious').name = 'Step1';
+
+                // Disable/enable buttons when reach reach start and review steps
+
+                document.getElementById('ButtonPrevious').disabled = '';
+
+                // Set new step to display and turn off display of current step
+
+                document.getElementById('Step1').style.display = 'none';
+
+                document.getElementById('Step2').style.display = '';
+
+                // Change background color on header to highlight new step
+
+                document.getElementById('HeaderTableStep2').style.backgroundColor = 'Yellow';
+
+                document.getElementById('HeaderTableStep1').style.backgroundColor = 'Silver';
+
+            }
+	});
+
 
   window.addEventListener('load', initializeWindow);
 }());
